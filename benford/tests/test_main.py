@@ -39,13 +39,13 @@ class TestBenford(TestCase):
 
     def test_get_first_digits_empty(self):
         """Minimal parameters for get_first_digits."""
-        self.assertEqual([], bm.get_first_digits([]))
-        self.assertEqual([1], bm.get_first_digits([1]))
+        self.assertEqual([], list(bm.get_first_digits([])))
+        self.assertEqual([1], list(bm.get_first_digits([1])))
 
     def test_get_first_digits(self):
         """First digit should be returned correctly."""
         numbers = [1, 234, 345]
-        self.assertEqual([1, 2, 3], bm.get_first_digits(numbers))
+        self.assertEqual([1, 2, 3], list(bm.get_first_digits(numbers)))
 
     def test_get_distribution(self):
         """Distribution or count of numbers in list."""

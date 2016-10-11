@@ -42,7 +42,7 @@ def generate_numbers(qty, maxval):
     :returns: list -- a list of random numbers.
     """
     numbers = []
-    for i in xrange(qty):
+    for i in range(qty):
         numbers.append(randint(1, maxval))
     return numbers
 
@@ -86,7 +86,7 @@ def get_histogram(data, width=70):
     result = ""
     (distrib, max_count) = get_distribution(data)
     div = max_count / width
-    for i in xrange(1, 10):
+    for i in range(1, 10):
         count = distrib[i]
         result += ("{0} : {1}\n".format(i, "*" * int(count / div)))
     return result
