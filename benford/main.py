@@ -23,7 +23,6 @@ expected.
 See https://en.wikipedia.org/wiki/Benford's_law for details.
 """
 
-from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
@@ -56,7 +55,7 @@ def get_first_digits(numbers):
                       input list.
     """
     def fd(x):
-        return int(list(str(x))[0])
+        return int(str(x)[0])
     return map(fd, numbers)
 
 
@@ -72,26 +71,25 @@ def get_distribution(fnumbers):
                        occurance value.  This latter value is used to scale
                        the histogram.
     """
-    result = [0] * 10
-    max_count = 0
-    for i in xrange(1, 10):
-        count = len(filter(lambda x: x == i, fnumbers))
-        result[i] = count
-        if count > max_count:
-            max_count = count
-    return (result, max_count)
+    def count_num(value):
+        return len([i for i in fnumbers if i == value])
+
+    result = [count_num(i) for i in range(0, 10)]
+    return (result, max(result))
 
 
-def show_distribution(data):
+def get_histogram(data, width=70):
     """Output the relative frequencies of a list of numbers as a histogram.
 
     :param data: list of numbers
     """
+    result = ""
     (distrib, max_count) = get_distribution(data)
-    div = max_count / 70
+    div = max_count / width
     for i in xrange(1, 10):
         count = distrib[i]
-        print("{0} : {1}".format(i, "*" * int(count / div)))
+        result += ("{0} : {1}\n".format(i, "*" * int(count / div)))
+    return result
 
 
 def main():
@@ -104,19 +102,13 @@ def main():
     """
     numbers = generate_numbers(100000, 10000)
 
-    fns = [
-        lambda x: x * 8,
-        lambda x: x ** 5,
-        lambda x: x + 50,
-        lambda x: x * 7,
-        lambda x: x - 17,
-    ]
-
-    for f in fns:
-        numbers = map(f, numbers)
+    # Map a series of functions to the set
+    fns = "* 8, ** 5, + 50, * 7, - 17"
+    for f in fns.split(", "):
+        numbers = map(eval("lambda x: x %s" % f), numbers)
 
     fnumbers = get_first_digits(numbers)
-    show_distribution(fnumbers)
+    print(get_histogram(fnumbers))
 
 
 if __name__ == "__main__":

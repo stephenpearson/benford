@@ -3,7 +3,6 @@ pytest
 pytest-cov
 hacking
 flake8-pep257
-flake8-coding
 flake8-putty
 mock
 testtools
